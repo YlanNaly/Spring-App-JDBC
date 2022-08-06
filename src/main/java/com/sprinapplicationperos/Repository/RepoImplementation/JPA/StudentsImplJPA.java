@@ -34,7 +34,4 @@ public class StudentsImplJPA{
        return str;
     }
 
-    public List<Students> findWhereNameLike(String query) {
-            return repoJPA.findStudentsByIdAndName(query);
-    }
 }

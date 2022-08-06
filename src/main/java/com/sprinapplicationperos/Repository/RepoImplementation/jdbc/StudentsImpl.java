@@ -2,6 +2,7 @@ package com.sprinapplicationperos.Repository.RepoImplementation.jdbc;
 
 import com.sprinapplicationperos.Model.Groups;
 import com.sprinapplicationperos.Model.Students;
+import com.sprinapplicationperos.Repository.GroupsRepo;
 import com.sprinapplicationperos.Repository.StudentsRepo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +26,9 @@ import java.util.List;
 @NoArgsConstructor
 public class StudentsImpl extends DbConnection implements StudentsRepo{
 
+    GroupsRepo groupsRepo;
      DbConnection connection = new DbConnection();
+     StudentsRepo studentsRepo;
 
     public List<Students> findAll() throws SQLException {
         Statement stmt = connection.getStatement();
@@ -60,14 +63,9 @@ public class StudentsImpl extends DbConnection implements StudentsRepo{
     @Override
     public String add(Students s ) throws SQLException {
         Statement stmt = connection.getStatement();
-        Date date =new Date(2002,02,02);
-        String strDateFormat = "yy-mm-dd";
-        DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
-        String formattedDate= dateFormat.format(date);
         try{
-            String choix =
-                    "INSERT INTO Groups VALUES ("+s.getGroups().getName()+","+s.getId()+","+formattedDate+");"
-                    +"INSERT INTO Students VALUES ("+s.getName()+","+s.getId()+","+s.getGroups().getId()+");";
+            groupsRepo.save(s.getGroups());
+            String choix = "INSERT INTO Students VALUES ("+s.getName()+","+s.getId()+","+s.getGroups().getId()+");";
             stmt.executeUpdate(choix);
             System.out.println("insert faites");
         }
@@ -80,7 +78,17 @@ public class StudentsImpl extends DbConnection implements StudentsRepo{
 
     @Override
     public void deleteById(Long a) throws SQLException {
-
+        Statement stmt = connection.getStatement();
+        String rep = "" +
+                "DELETE FROM students WHERE students.id="+a+";";
+        try{
+            groupsRepo.deleteById(a);
+            stmt.executeUpdate(rep);
+            System.out.println("delete faite");
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -90,7 +98,7 @@ public class StudentsImpl extends DbConnection implements StudentsRepo{
 
     @Override
     public List<Students> findWhereNameLike(String query) {
-        return null;
+        return studentsRepo.findWhereNameLike(query);
     }
 
 }

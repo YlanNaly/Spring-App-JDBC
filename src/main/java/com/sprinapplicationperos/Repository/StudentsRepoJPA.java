@@ -14,6 +14,5 @@ public interface StudentsRepoJPA extends JpaRepository<Students, Long> {
     @Override
     Optional<Students> findById(Long aLong);
 
-    @Query(value = "SELECT * FROM students WHERE students.id=(:id) ")
-    List<Students> findStudentsByIdAndName(@Param("id") String id);
+
 }
