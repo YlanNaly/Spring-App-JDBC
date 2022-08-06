@@ -1,12 +1,20 @@
 package com.sprinapplicationperos.Repository;
 
 import com.sprinapplicationperos.Model.Students;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-@Transactional(readOnly = true)
-public interface StudentsRepo extends JpaRepository<Students , Long> {
+public interface StudentsRepo {
+    List<Students> findAll() throws SQLException;
+
+    String add(Students s) throws SQLException;
+
+    void deleteById(Long a) throws SQLException;
+
+    Students updateNameById(Long id , String newName);
+
+    List<Students> findWhereNameLike(String query);
 }

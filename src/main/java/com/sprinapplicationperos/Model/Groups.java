@@ -16,6 +16,12 @@ import java.time.LocalDate;
 public class Groups {
     @Column(length = 3)
     private String name;
+
+    public Groups(String name, LocalDate creation_Date) {
+        this.name = name;
+        this.creation_Date = creation_Date;
+    }
+
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Long id;

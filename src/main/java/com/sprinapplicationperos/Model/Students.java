@@ -16,9 +16,22 @@ public class Students {
     @Id
     private Long id;
 
+    public Students(String name, Groups groups) {
+        this.name = name;
+        this.groups = groups;
+    }
+
+    public Students(String name) {
+        this.name = name;
+    }
+
     @ManyToOne
     @JoinColumn(
-            name="Groups_id"
+            name="groups_id"
     )
     private Groups groups;
+
+    public Long getId(Long id) {
+        return id;
+    }
 }
