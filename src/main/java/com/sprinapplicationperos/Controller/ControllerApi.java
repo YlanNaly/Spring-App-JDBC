@@ -16,7 +16,6 @@ public class ControllerApi {
     /**
     public String Registration(@RequestBody ){
         @PostMapping("/")
-
     }
      */
     private StudentsImplJPA studentsImplJPA;
@@ -25,7 +24,7 @@ public class ControllerApi {
     public @ResponseBody List<Students> findAll() {
         return studentsImplJPA.getRepoJPA();
     }
-    @GetMapping(path = "/students?={id}")
+    @PostMapping(path = "/students?={id}")
     private String deleteById(@PathVariable (required = false) Long id) throws SQLException {
         if(id != null){
             return studentsImplJPA.deleteById(id);

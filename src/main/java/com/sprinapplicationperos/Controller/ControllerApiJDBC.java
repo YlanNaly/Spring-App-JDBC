@@ -20,7 +20,7 @@ public class ControllerApiJDBC {
     public List<Students> getStudents() throws SQLException {
         return students.findAll();
     }
-    @GetMapping(path="/jdbc/name={name}&id={id}")
+    @PostMapping(path="/jdbc/name={name}&id={id}")
     public @ResponseBody String add(@PathVariable(required = false)String name,@PathVariable(required = false) Long id) throws SQLException {
         LocalDate date = null;
         /*
@@ -30,12 +30,12 @@ public class ControllerApiJDBC {
         return students.add(new Students(name,id,groups));
     }
 
-    @GetMapping(path="/jdbc/delete={id} ")
+    @DeleteMapping (path="/jdbc/delete={id} ")
     public Students delete(@PathVariable Long id) throws SQLException {
         return students.deleteById(id);
     }
 
-    @GetMapping(path="/jdbc/{name} ")
+    @PutMapping(path="/jdbc/{name} ")
     public List<Students> findWhereNameLike(@PathVariable (required = false) String name){
         return students.findWhereNameLike(name);
     }
