@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
+
 @Controller
 @RestController
 @AllArgsConstructor
@@ -24,11 +26,15 @@ public class ControllerApi {
     public @ResponseBody List<Students> findAll() {
         return studentsImplJPA.getRepoJPA();
     }
-    @PostMapping(path = "/students?={id}")
+    @DeleteMapping(path = "/students/{id}")
     private String deleteById(@PathVariable (required = false) Long id) throws SQLException {
         if(id != null){
             return studentsImplJPA.deleteById(id);
         }
         return "Id not found";
+    }
+    @GetMapping(path = "/jpa/students/{id}")
+    public Optional<Students> findById(@PathVariable Long id){
+        return repoJPA.findById(id);
     }
 }
