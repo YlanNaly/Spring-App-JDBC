@@ -35,7 +35,7 @@ public class ControllerApiJDBC {
         return students.deleteById(id);
     }
 
-    @PutMapping(path="/jdbc/{name} ")
+    @GetMapping(path="/jdbc/{name} ")
     public List<Students> findWhereNameLike(@PathVariable (required = false) String name){
         return students.findWhereNameLike(name);
     }
