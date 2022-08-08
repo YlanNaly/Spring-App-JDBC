@@ -2,15 +2,12 @@ package com.sprinapplicationperos.Controller;
 
 import com.sprinapplicationperos.Model.Groups;
 import com.sprinapplicationperos.Model.Students;
-import com.sprinapplicationperos.Repository.RepoImplementation.jdbc.StudentsImpl;
+import com.sprinapplicationperos.Service.jdbc.StudentsImpl;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -19,8 +16,12 @@ import java.util.List;
 public class ControllerApiJDBC {
     private StudentsImpl students;
 
+    @GetMapping(path="/jdbc/students")
+    public List<Students> getStudents() throws SQLException {
+        return students.findAll();
+    }
     @GetMapping(path="/jdbc/name={name}&id={id}")
-    public @ResponseBody String add(@PathVariable(required = true)String name,@PathVariable(required = true) Long id) throws SQLException {
+    public @ResponseBody String add(@PathVariable(required = false)String name,@PathVariable(required = false) Long id) throws SQLException {
         LocalDate date = null;
         /*
         * TODO : localDate => "G1",  date.of(2022,9,9)
@@ -29,8 +30,13 @@ public class ControllerApiJDBC {
         return students.add(new Students(name,id,groups));
     }
 
-    @GetMapping(path="/jdbc/allstudents")
-    public List<Students> getStudents() throws SQLException {
-        return students.findAll();
+    @GetMapping(path="/jdbc/delete={id} ")
+    public Students delete(@PathVariable Long id) throws SQLException {
+        return students.deleteById(id);
+    }
+
+    @GetMapping(path="/jdbc/{name} ")
+    public List<Students> findWhereNameLike(@PathVariable (required = false) String name){
+        return students.findWhereNameLike(name);
     }
 }

@@ -1,4 +1,4 @@
-package com.sprinapplicationperos.Repository.RepoImplementation.jdbc;
+package com.sprinapplicationperos.Service.jdbc;
 
 import com.sprinapplicationperos.Model.Groups;
 import com.sprinapplicationperos.Model.Students;
@@ -7,6 +7,7 @@ import com.sprinapplicationperos.Repository.StudentsRepo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +15,6 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +76,8 @@ public class StudentsImpl extends DbConnection implements StudentsRepo{
     }
 
     @Override
-    public void deleteById(Long a) throws SQLException {
+    public Students deleteById(Long a) throws SQLException {
+        List<Students> students = null;
         Statement stmt = connection.getStatement();
         String rep = "" +
                 "DELETE FROM students WHERE students.id="+a+";";
@@ -89,6 +89,7 @@ public class StudentsImpl extends DbConnection implements StudentsRepo{
         catch (Exception e){
             e.printStackTrace();
         }
+        return (Students) students;
     }
 
     @Override
@@ -97,6 +98,7 @@ public class StudentsImpl extends DbConnection implements StudentsRepo{
     }
 
     @Override
+    @Query(value = "SELECT * FROM students WHERE students.name ILIKE %(:id)% ")
     public List<Students> findWhereNameLike(String query) {
         return studentsRepo.findWhereNameLike(query);
     }

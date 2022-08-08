@@ -1,10 +1,9 @@
 package com.sprinapplicationperos.Controller;
 
 import com.sprinapplicationperos.Model.Students;
-import com.sprinapplicationperos.Repository.RepoImplementation.JPA.StudentsImplJPA;
+import com.sprinapplicationperos.Service.JPA.StudentsImplJPA;
 import com.sprinapplicationperos.Repository.StudentsRepoJPA;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,14 +21,14 @@ public class ControllerApi {
      */
     private StudentsImplJPA studentsImplJPA;
     private StudentsRepoJPA repoJPA;
-    @GetMapping(path="/jpa/allstudent")
+    @GetMapping(path="/jpa/students")
     public @ResponseBody List<Students> findAll() {
         return studentsImplJPA.getRepoJPA();
     }
     @GetMapping(path = "/students?={id}")
-    private String deleteById(@PathVariable (required = true) Long id) throws SQLException {
+    private String deleteById(@PathVariable (required = false) Long id) throws SQLException {
         if(id != null){
-            return "Delete successfully";
+            return studentsImplJPA.deleteById(id);
         }
         return "Id not found";
     }

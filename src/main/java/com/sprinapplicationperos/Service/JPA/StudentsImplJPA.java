@@ -1,10 +1,9 @@
-package com.sprinapplicationperos.Repository.RepoImplementation.JPA;
+package com.sprinapplicationperos.Service.JPA;
 
 import com.sprinapplicationperos.Model.Students;
 import com.sprinapplicationperos.Repository.StudentsRepoJPA;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
@@ -22,8 +21,9 @@ public class StudentsImplJPA{
         return repoJPA.save(s);
     }
 
-    public void deleteById(Long a) throws SQLException {
+    public String deleteById(Long a) throws SQLException {
         repoJPA.deleteById(a);
+        return null;
     }
 
     public Students updateNameById(Long id, String newName) {
